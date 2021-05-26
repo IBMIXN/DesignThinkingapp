@@ -23,9 +23,9 @@
             <form method = "post">
                 {% csrf_token %}
             <div class="card-body msg_card_body bg-light"  >
-                    <h2 style="text-align: left;">Project ID: {{project.id}}</h2>
-                    <br>
                     <h2 style="text-align: left;">Project Target User: {{project.user}}</h2>
+                    <br>
+                    <h2 style="text-align: left;">Project ID: {{project.id}}</h2>
                     <br>
                     <a href="{% url 'review' project.id %}">
                     <button type="button" class="btn btn-outline-dark btn-lg">Review</button>

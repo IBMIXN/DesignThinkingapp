@@ -164,6 +164,8 @@ def newdesign(request):
 def review(request, id):
     projectID = getProjectID(request.user.email)
     project = getProjectName(projectID)
+    if id not in projectID:
+        return redirect('dashboard')
     if request.session.get(id):
         content = request.session.get(id)
     else:
