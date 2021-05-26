@@ -1,6 +1,6 @@
 from ibm_watson import TextToSpeechV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-import simpleaudio as sa
+#import simpleaudio as sa
 
 apikey = "FnR0IEGhCkL_t20v1yphYJruUSgIatOmeSo_ba7WDk8u"
 url = "https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/6f715e03-1d19-4bb9-80a9-f5c751abf555"
