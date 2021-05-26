@@ -1,0 +1,281 @@
+{% extends "designthinking/base.html" %}
+{% block ctt %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+		if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    });
+	
+</script>
+<div class="alert alert-info">
+	Project Name: {{content.ProjectName.0.name}}<br>
+	Project Target User: {{content.Target.0.target}}
+</div>
+<div class="row">
+	<div class="col-md-8 col-xl-5 chat">
+		<div class="card bg-light" style="max-height: 1000px;">
+			<div class="card-header msg_head bg-primary">
+				<div class="user_info">
+					<span>Empathy Map</span>
+				</div>
+			</div>
+			<div class="card-body msg_card_body bg-light">
+				<div class="row text-center no-gutters">
+					<div class ="col" style="max-width: 25%;">
+						<div class="smalltitle bg-primary">
+							<span class="text-light">Think</span>
+						</div>
+						<form method = "post">
+							{% csrf_token %}
+						<div class="card-body msg_card_body bg-light" style="height: 750px;">
+						<ul class="sticky" style="max-height: 750px;max-width: 200px;">
+							{% if content.EmpathyThink %}
+								{% for t in content.EmpathyThink %}
+								<li>
+									<span>
+										{{t.think}}
+										<input type="hidden" name="name" value="EmpathyThink">
+										<button type="submit" name = "delete" value = {{t.sequence}} class="fabutton right"><i class="fas fa-times"></i></button>
+									</span>
+									
+								</li>
+								{% endfor %}
+							{% endif %}
+						</ul>
+						</div>
+							<div class="card-footer ">
+								<div class="input-group">	
+									<textarea name="add" class="form-control type_msg " placeholder="Add a new point..."></textarea>
+									<div class="input-group-append">
+										<span class="input-group-text send_btn"><button type="submit"  class="fabutton">
+									  <i class="fas fa-plus"></i></button></span>
+									</div>
+								</div>
+						</div>
+					</form>
+					</div>
+					<div class ="col"style="max-width: 25%;">
+						<div class="smalltitle bg-primary">
+							<span class="text-light">Feel</span>
+						</div>
+						<form method = "post">
+							{% csrf_token %}
+						<div class="card-body msg_card_body bg-light" style="height: 750px;">
+						<ul class="sticky" style="max-height: 750px;max-width: 200px;">
+							{% if content.EmpathyFeel %}
+								{% for f in content.EmpathyFeel %}
+								<li>
+									<span>
+										{{f.feel}}
+										<input type="hidden" name="name" value="EmpathyFeel">
+										<button type="submit" name = "delete" value = {{f.sequence}} class="fabutton right"><i class="fas fa-times"></i></button>
+									</span>
+									
+								</li>
+								{% endfor %}
+							{% endif %}
+						</ul>
+						</div>
+							<div class="card-footer ">
+								<div class="input-group">	
+									<textarea name="add" class="form-control type_msg " placeholder="Add a new point..."></textarea>
+									<div class="input-group-append">
+										<span class="input-group-text send_btn"><button type="submit"  class="fabutton">
+									  <i class="fas fa-plus"></i></button></span>
+									</div>
+								</div>
+						</div>
+					</form>
+					</div>
+					<div class ="col"style="max-width: 25%;">
+						<div class="smalltitle bg-primary">
+							<span class="text-light">Say</span>
+						</div>
+						<form method = "post">
+							{% csrf_token %}
+						<div class="card-body msg_card_body bg-light" style="height: 750px;">
+						<ul class="sticky" style="max-height: 750px;max-width: 200px;">
+							{% if content.EmpathySay %}
+								{% for s in content.EmpathySay %}
+								<li>
+									<span>
+										{{s.say}}
+										<input type="hidden" name="name" value="EmpathySay">
+										<button type="submit" name = "delete" value = {{s.sequence}} class="fabutton right"><i class="fas fa-times"></i></button>
+									</span>
+									
+								</li>
+								{% endfor %}
+							{% endif %}
+						</ul>
+						</div>
+							<div class="card-footer ">
+								<div class="input-group">	
+									<textarea name="add" class="form-control type_msg " placeholder="Add a new point..."></textarea>
+									<div class="input-group-append">
+										<span class="input-group-text send_btn"><button type="submit"  class="fabutton">
+									  <i class="fas fa-plus"></i></button></span>
+									</div>
+								</div>
+						</div>
+					</form>
+					</div>
+					<div class ="col" style="max-width: 25%;">
+						<div class="smalltitle bg-primary">
+							<span class="text-light">Do</span>
+						</div>
+						<form method = "post">
+							{% csrf_token %}
+						<div class="card-body msg_card_body bg-light" style="height: 750px;">
+						<ul class="sticky" style="max-height: 750px;max-width: 200px;">
+							{% if content.EmpathyDo %}
+								{% for d in content.EmpathyDo %}
+								<li>
+									<span>
+										{{d.do}}
+										<input type="hidden" name="name" value="EmpathyDo">
+										<button type="submit" name = "delete" value = {{ d.sequence }} class="fabutton right"><i class="fas fa-times"></i></button>
+									</span>
+									
+								</li>
+								{% endfor %}
+							{% endif %}
+						</ul>
+						</div>
+							<div class="card-footer ">
+								<div class="input-group">	
+									<textarea name="add" class="form-control type_msg " placeholder="Add a new point..."></textarea>
+									<div class="input-group-append">
+										<span class="input-group-text send_btn"><button type="submit"  class="fabutton">
+									  <i class="fas fa-plus"></i></button></span>
+									</div>
+								</div>
+						</div>
+					</form>
+					</div>
+					
+				</div>
+					
+				</div>
+				
+			</div>
+
+		</div>
+		  
+	<div class = 'col-md-8 col-xl-3 chats'>
+		<div class="card bg-light">
+			<div class="card-header msg_head bg-primary">
+				<div class="user_info">
+					<span>As-Is Process</span>
+				</div>
+			</div>
+			<div class="timeline">
+				<ul class="timeline-ul" style="height: 800px;">
+				{% if content.AsIs %}
+					{% for as_is_element in content.AsIs %}	
+					<li class="timeline-li">
+						<div class="hour">
+						<span>{{as_is_element.order}}</span>
+						</div>
+						<div class="work">
+						<span>{{as_is_element.text}}</span>
+						</div>
+					</li>
+					{% endfor %}
+				{% endif %}
+							
+				</ul>
+			  </div>
+		</div>
+	</div>
+	<div class="col-md-8 col-xl-3 chats">
+		<div class="col">
+			<div class="card">
+				<div class="card-header msg_head bg-primary">
+					<div class="user_info">
+						<span>All solutions</span>
+					</div>
+					<div class="user_info">
+						<form method="post">
+							{% csrf_token %}
+							<span>Sort:</span>
+							<select class="form-select" name="sort" id = sort onchange="this.form.submit()">
+								<option value="order">Default</option>
+								<option value="complexity">Complexity Low to High</option>
+								<option value="feasibility">Feasibility High to Low</option>
+							</select>
+					   </form>
+						
+					</div>
+					
+				</div>
+				<form method = "post">
+				{% csrf_token %}
+				<input type="hidden" name="name" value="Ideas">
+				<div class="card-body msg_card_body bg-light" style="height: 775px;">
+					<div class ="col">
+						<ul class="sticky" style="max-height: 775px;">
+							{% if content.Ideas %}
+								{% for idea in content.Ideas %}
+								<li>
+									<span> 
+										Complexity: {{idea.complexity}}
+										How Expensive: {{idea.expensive}}
+										<button type="submit" name = "delete" value = {{idea.sequence}} class="fabutton right"><i class="fas fa-times"></i></button>
+										<br>
+										{{idea.text}}
+									</span>
+								</li>
+								{% endfor %}
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+				<div class="card-footer">
+						<textarea name="add" class="form-control type_msg " placeholder="Add a new idea..."></textarea><br>
+						<div class="row">
+							<div class="col">
+								Complexity:
+									<select class="form-select form-select-lg mb-3" name = "complexity">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									  </select>
+
+							</div>
+							<div class="col">
+								How Expensive:
+									<select class="form-select form-select-lg mb-3" name = "expensive">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									  </select>
+
+							</div>
+							<div class="col d-flex justify-content-sm-center">
+								<input class="btn btn-primary btn-sm" type="submit" value="Submit">
+							</div>
+						</div>
+					
+					</form>
+			</div>
+			</div>
+		  </div>
+	</div>
+</div>
+{% endblock ctt %}

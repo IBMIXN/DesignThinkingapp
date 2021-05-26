@@ -1,0 +1,50 @@
+{% extends "designthinking/base.html" %}
+{% block ctt %}
+{% load static %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+		if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    });
+	
+</script>
+<div class="row text-center">
+    {% for project in projects %}
+    <div class="col dashboard-card bg-light">
+        <div class="card bg-light" style="max-height: 400px;">
+            <div class="card-header msg_head bg-primary">
+                <div class="d-flex bd-highlight">
+                    <div>
+                        <h1 class="user_name"> {{project.name}}</h1>
+                    </div>
+                </div>
+            </div>
+            <form method = "post">
+                {% csrf_token %}
+            <div class="card-body msg_card_body bg-light"  >
+                    <h2 style="text-align: left;">Project ID: {{project.id}}</h2>
+                    <br>
+                    <h2 style="text-align: left;">Project Target User: {{project.user}}</h2>
+                    <br>
+                    <a href="{% url 'review' project.id %}">
+                    <button type="button" class="btn btn-outline-dark btn-lg">Review</button>
+                    </a>
+                    <button type="submit" class="btn btn-outline-danger btn-lg" name = "delete" value = {{project.id}} >Delete</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col dashboard-card bg-light">
+        <div class="card bg-light" style="max-height: 400px; outline-style: dashed; border-radius: 100px; padding: 80px 0px;">
+            <a href="{% url 'newdesign' %}" class="icon-block">
+                <i class="fas fa-plus fa-10x"></i>
+                <h1>Add a New Project</h1>
+            </a>
+
+
+        </div>
+    </div>
+</div>
+{% endblock ctt %} 

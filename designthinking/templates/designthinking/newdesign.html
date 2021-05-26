@@ -1,0 +1,236 @@
+{% extends "designthinking/base.html" %}
+{% load static %}
+{% block ctt %}
+<script src="{% static 'designthinking/js/main.js' %}"></script>
+<script type='text/javascript'>
+    $(document).ready(function(){
+		$("#messages").scrollTop($("#messages")[0].scrollHeight);
+		if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    });
+
+</script>
+<div class="container-fluid h-200">
+	<div class="alert alert-info">
+		Project Name: {{content.ProjectName}}<br>
+		Project Target User: {{content.user}}
+	</div>
+	<div class="row justify-content-center h-200 ">
+		<div class="col-md-4 col-xl-4 chat">
+			<div class="card" height = 1000px>
+				<div class="card-header msg_head bg-primary">
+					<div class="d-flex bd-highlight">
+						<div class="img_cont">
+							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+							<span class="online_icon"></span>
+						</div>
+						<div class="user_info">
+							<span>Chatbot is glad to chat with you</span>
+							<p>{{messageNumber}} Messages</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-body msg_card_body bg-light" id = "messages">
+					{% for chat in chathistory %}
+					{% if chat.robot_is_sender %}
+					
+					<div class="d-flex justify-content-start mb-4">
+						<div class="img_cont_msg">
+							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+						</div>
+						<div class="msg_cotainer">
+							{{chat.text}}
+						</div>
+					</div>
+					{% else %}
+					<div class="d-flex justify-content-end mb-4">
+						<div class="msg_cotainer_send">
+							{{chat.text}}
+						</div>
+						<div class="img_cont_msg">
+							<img src="{{ user.profile.img.url }}" class="rounded-circle user_img_msg">
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div class="card-footer ">
+					<form method = "post">
+					{% csrf_token %}
+					<div class="input-group">
+						<div class="input-group-append">
+								<span class="input-group-text attach_btn"><button id="recordButton"><i class="fas fa-microphone-alt"></i></button>
+								<button id="pauseButton"><i class="fas fa-pause-circle"></i></button>
+								<button id="stopButton"><i class="fas fa-stop"></i></button></span>		
+						</div>
+						<textarea name="user_input" class="form-control type_msg " placeholder="Type your message..."></textarea>
+						<div class="input-group-append">
+							<span class="input-group-text send_btn"><button type="submit"  class="fabutton">
+						  <i class="fas fa-location-arrow"></i></button></span>
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8 col-xl-5 chat">
+			<div class="col">
+				<div class="graph bg-light" >
+					<div class="card-header msg_head bg-primary">
+						<div class="user_info">
+							<span>Empathy Map</span>
+						</div>
+					</div>
+					<div class="card-body msg_card_body bg-light">
+						<div class="row text-center no-gutters">
+							<div class ="col">
+								<div class="smalltitle bg-primary">
+									<span class="text-light">Think</span>
+								</div>
+								<ul class="sticky" style="max-height: 300px;">
+									{% if content.empathy_think %}
+										{% for think in content.empathy_think %}
+										<li>
+											<span>
+												{{think}}
+											</span>
+										</li>
+										{% endfor %}
+									{% endif %}
+									
+								</ul>
+							</div>
+							<div class ="col">
+								<div class="smalltitle bg-primary">
+									<span class="text-light">Feel</span>
+								</div>
+								<ul class="sticky" style="max-height: 300px;">
+									{% if content.empathy_feel %}
+										{% for feel in content.empathy_feel %}
+										<li>
+											<span>
+												{{feel}}
+											</span>
+										</li>
+										{% endfor %}
+									{% endif %}
+									
+								</ul>
+							</div>
+							<div class ="col">
+								<div class="smalltitle bg-primary">
+									<span class="text-light">Say</span>
+								</div>
+								<ul class="sticky" style="max-height: 300px;">
+									{% if content.empathy_say %}
+										{% for say in content.empathy_say %}
+										<li>
+											<span>
+												{{say}}
+											</span>
+										</li>
+										{% endfor %}
+									{% endif %}
+									
+								</ul>
+							</div>
+							<div class ="col">
+								<div class="smalltitle bg-primary">
+									<span class="text-light">Do</span>
+								</div>
+								<ul class="sticky" style="max-height: 300px;">
+									{% if content.empathy_do %}
+										{% for do in content.empathy_do %}
+										<li>
+											<span>
+												{{do}}
+											</span>
+										</li>
+										{% endfor %}
+									{% endif %}
+									
+								</ul>
+							</div>
+						</div>
+						
+					</div>
+
+				</div>
+			  </div>
+			  <div class="col ">
+				<div class="graph bg-light">
+					<div class="card-header msg_head bg-primary">
+						<div class="user_info">
+							<span>As-Is Process</span>
+						</div>
+					</div>
+					<div class="timeline">
+						<ul class="timeline-ul">
+						{% if content.as_is %}
+							{% for as_is_element in content.as_is %}	
+							<li class="timeline-li">
+								<div class="hour">
+								<span>{{as_is_element.order}}</span>
+								</div>
+								<div class="work">
+								<span>{{as_is_element.text}}</span>
+								</div>
+							</li>
+							{% endfor %}
+						{% endif %}
+									
+						</ul>
+					  </div>
+				</div>
+			  </div>
+		</div>
+		<div class="col-md-8 col-xl-3 chats">
+			<div class="col">
+				<div class="card">
+					<div class="card-header msg_head bg-primary">
+						<div class="user_info">
+							<span>All solutions</span>
+						</div>
+						<div class="user_info">
+							<form name="add" method="post">
+								{% csrf_token %}
+								<span>Sort:</span>
+								<select class="select" name="sort" id = sort onchange="this.form.submit()">
+									<option value="order">Sort by Default</option>
+									<option value="complexity">Complexity Low to High</option>
+									<option value="feasibility">Feasibility High to Low</option>
+								</select>
+						   </form>
+							
+						</div>
+						
+					</div>
+					<div class="card-body msg_card_body bg-light">
+						<div class ="col">
+							<ul class="sticky" style="max-height: 1000px;">
+								{% if content.new_ideas %}
+									{% for idea in content.new_ideas %}
+									<li>
+										<span> 
+											Complexity: {{idea.complexity}}
+											How Expensive: {{idea.expensive}}
+											<br>
+											{{idea.text}}
+										</span>
+									</li>
+									{% endfor %}
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			  </div>
+		</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script src="{% static 'designthinking/js/recordaudio.js' %}"></script>
+
+{% endblock ctt %}
