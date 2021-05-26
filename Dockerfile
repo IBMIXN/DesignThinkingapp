@@ -9,6 +9,8 @@ USER root
 RUN yum -y install python3
 RUN yum -y install python3-pip wget
 
+RUN apt-get update && apt-get install libasound2-dev
+
 RUN pip3 install --upgrade pip==21.0.1 \
   && pip3 install --upgrade pipenv==2020.11.15 \
   && pipenv install --system --deploy
