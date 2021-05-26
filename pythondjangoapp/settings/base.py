@@ -38,7 +38,7 @@ ROOT_URLCONF = 'pythondjangoapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app', 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +52,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pythondjangoapp.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -71,12 +78,42 @@ AUTH_PASSWORD_VALIDATORS = [
     }
 ]
 
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = (
-    os.path.join(os.path.abspath(BASE_DIR), "app", "static"),
-)
+# other configs I needed 
 
-STATIC_ROOT = os.path.join(os.path.abspath(BASE_DIR), "staticfiles")
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+
+# for email authentication
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'ixn.ibmdesignthinking@gmail.com'
+EMAIL_HOST_PASSWORD = 'Admin2021'
+
+# better practice to hide sensitive information
+# not needed since i made a fresh email account for this
+# dedicated purpose
+# EMAIL_HOST_USER = os.environ.get('GM_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('GM_PASS')
