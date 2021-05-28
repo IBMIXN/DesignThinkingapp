@@ -197,9 +197,9 @@
 								{% csrf_token %}
 								<span>Sort:</span>
 								<select class="select" name="sort" id = sort onchange="this.form.submit()">
-									<option value="order">Sort by Default</option>
-									<option value="complexity">Complexity Low to High</option>
-									<option value="feasibility">Feasibility High to Low</option>
+									<option value="default" {% if sort == 'default' %} selected="selected" {% endif %}>Sort by Default</option>
+									<option value="complexity" {% if sort == 'complexity' %} selected="selected" {% endif %}>Complexity Low to High</option>
+									<option value="expensive" {% if sort == 'expensive' %} selected="selected" {% endif %}>Expensiveness Low to High</option>
 								</select>
 						   </form>
 							

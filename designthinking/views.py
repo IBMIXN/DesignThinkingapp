@@ -12,6 +12,11 @@ from .dbconnection import *
 from .audio import *
 
 
+def sortByKey(ideas, key):
+    if key == 'default':
+        return ideas
+    else:
+        return sorted(ideas, key=lambda k: k[key]) 
 
 
 @login_required
@@ -55,7 +60,6 @@ def dashboard(request):
     if request.method == 'POST':
         if request.POST.get('delete')!=None:
             delete_project = request.POST.get('delete')
-            print(delete_project)
             deleteProject(request.user.email, delete_project)
             projectID = getProjectID(request.user.email)
             project = getProjectName(projectID)
@@ -68,7 +72,8 @@ def dashboard(request):
 @login_required
 def newdesign(request):
     response = []
-
+    if 'sort' not in request.session:
+        request.session['sort'] = 'default'
     # initiate the conversation with chatbot if no context stored in session
     if 'chatbot_context' not in request.session or request.session['chatbot_context'] == {}:
         chatbot_context = {}
@@ -78,17 +83,12 @@ def newdesign(request):
                 if res['response_type'] == 'text':
                     chatHistory = []
                     chatHistory.append({'robot_is_sender': True, 'text': res['text']})
-                    print(res['text'])
                     speak(res['text'])
         request.session['chatHistory'] = chatHistory
 
     # if an user input is received
     if request.method == 'POST':
         # if the input is user's input in the chat
-        if request.FILES.get('audio_data'):
-            print("YESSSSSSSSSSSSSSSSS")
-        else:
-            print("NOOOOOOOOOOOOOOOOO")
         if request.POST.get("user_input")!= None and request.POST.get("user_input")!='':
             user_input = request.POST.get("user_input")
             chatHistory = request.session['chatHistory']
@@ -101,13 +101,11 @@ def newdesign(request):
                 if res['response_type'] == 'text':
                     chatHistory = request.session['chatHistory']
                     chatHistory.append({'robot_is_sender': True, 'text': res['text']})
-                    print(res['text'])
                     speak(res['text'])
             request.session['chatHistory'] = chatHistory
         # if the input is to sort the ideas list
         elif request.POST.get("sort")!=None:
-            sort = request.POST.get("sort")
-            print(sort)
+            request.session['sort'] = request.POST.get("sort")
     content = {}
     # check if we have received some contents from the users
     if request.session['chatbot_context']['skills']['main skill'].get('user_defined')!=None:
@@ -127,7 +125,7 @@ def newdesign(request):
         while i < (len(content['ideas'])):
             new_ideas.append({'text': content['ideas'][i], 'complexity': content['ideas'][i+1], 'expensive': content['ideas'][i+2]})
             i+=3
-        content['new_ideas'] = new_ideas
+        content['new_ideas'] = sortByKey(new_ideas, request.session['sort'])
 
     # We assign the id of each project by the user id of the chatbot because chatbot assign a unique id for each session
     content['id'] = request.session['chatbot_context']['global']['system']['user_id']
@@ -154,16 +152,19 @@ def newdesign(request):
         'messageNumber': len(request.session['chatHistory']),
         'content':content,
         'projects': project,
+        'sort': request.session['sort'],
     }
-    # print(request.session['chatbot_context'])
-    # print(request.session['chatHistory'])
-    # print(request.session['chatbot_context']['skills']['main skill'])
     return render(request, 'designthinking/newdesign.html', context)
 
 @login_required
 def review(request, id):
     projectID = getProjectID(request.user.email)
     project = getProjectName(projectID)
+    if 'sort' not in request.session:
+        request.session['sort'] = 'default'
+    print(projectID)
+    print(id)
+    print(id in projectID)
     if id not in projectID:
         return redirect('dashboard')
     if request.session.get(id):
@@ -175,10 +176,8 @@ def review(request, id):
         # if request.POST.get('delete')!=None:
         #     if request.POST.get('name')!=None:
         if (request.POST.get('delete'))!=None:
-            print(request.POST.get('delete'))
             sequence = request.POST.get('delete')
             table = request.POST.get('name')
-            print(table)
             rows = content[table]
             for row in rows:
                 if row['sequence'] == sequence:
@@ -186,10 +185,7 @@ def review(request, id):
             deleteItem(table,item)
         textToAdd = request.POST.get('add')
         if textToAdd!=None and textToAdd!='':
-            
             table = request.POST.get('name')
-            print(textToAdd)
-            print(table)
             if "Empathy" in table:
                 value = [id, textToAdd]
                 insertSingleTwo(table, value)
@@ -204,11 +200,13 @@ def review(request, id):
     else:
         content = getProjectContent(id)
         request.session[id] = content
-
-
+    if request.POST.get("sort")!=None:
+        request.session['sort'] = request.POST.get("sort")
+    content['Ideas'] = sortByKey(content['Ideas'], request.session['sort'])
     context = {
         'content':content,
         'projects': project,
+        'sort': request.session['sort'],
     }
     return render(request, 'designthinking/review.html', context)
 
