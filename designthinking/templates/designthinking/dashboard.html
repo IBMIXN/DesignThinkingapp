@@ -16,16 +16,16 @@
             <div class="card-header msg_head bg-primary">
                 <div class="d-flex bd-highlight">
                     <div>
-                        <h1 class="user_name"> {{project.name}}</h1>
+                        <h4 class="user_name"> {{project.name}}</h1>
                     </div>
                 </div>
             </div>
             <form method = "post">
                 {% csrf_token %}
             <div class="card-body msg_card_body bg-light"  >
-                    <h2 style="text-align: left;">Project Target User: {{project.user}}</h2>
+                    <h5 style="text-align: left;">Project Target User: {{project.user}}</h2>
                     <br>
-                    <h2 style="text-align: left;">Project ID: {{project.id}}</h2>
+                    <h5 style="text-align: left;">Project ID: {{project.id}}</h2>
                     <br>
                     <a href="{% url 'review' project.id %}">
                     <button type="button" class="btn btn-outline-dark btn-lg">Review</button>

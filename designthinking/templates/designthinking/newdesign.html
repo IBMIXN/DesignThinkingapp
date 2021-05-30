@@ -22,7 +22,7 @@
 				<div class="card-header msg_head bg-primary">
 					<div class="d-flex bd-highlight">
 						<div class="img_cont">
-							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+							<img src="{% static 'designthinking/img/apple-touch-icon.png' %}" class="rounded-circle user_img">
 							<span class="online_icon"></span>
 						</div>
 						<div class="user_info">
@@ -37,7 +37,7 @@
 					
 					<div class="d-flex justify-content-start mb-4">
 						<div class="img_cont_msg">
-							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+							<img src="{% static 'designthinking/img/apple-touch-icon.png' %}" class="rounded-circle user_img_msg">
 						</div>
 						<div class="msg_cotainer">
 							{{chat.text}}
@@ -56,13 +56,13 @@
 					{% endfor %}
 				</div>
 				<div class="card-footer ">
-					<form method = "post">
+					<form method = "post" id="theForm">
 					{% csrf_token %}
 					<div class="input-group">
 						<div class="input-group-append">
 								<span class="input-group-text attach_btn"><button id="recordButton"><i class="fas fa-microphone-alt"></i></button>
 								<button id="pauseButton"><i class="fas fa-pause-circle"></i></button>
-								<button id="stopButton"><i class="fas fa-stop"></i></button></span>		
+								<button id="stopButton"type="submit"><i class="fas fa-stop"></i></button></span>		
 						</div>
 						<textarea name="user_input" class="form-control type_msg " placeholder="Type your message..."></textarea>
 						<div class="input-group-append">

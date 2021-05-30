@@ -14,9 +14,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   
-
-    
-    
     <!-- for calendar date select-->
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -95,7 +92,7 @@
           <i class="fas fa-file"></i>
           <span>Review Existing Designs</span>
         </a>
-        <!-- Dropdown - User Information -->
+        <!-- Dropdown - Project information -->
         <div class="dropdown-menu dropdown-menu-left shadow animated--grow-in" aria-labelledby="userDropdown">
         {% for project in projects %}
         
@@ -114,16 +111,8 @@
             <span>Help</span>
           </a>
         </li>
-
-        
-        
-
-        
       </ul>
     </nav>
-  
-    
-  
   
   <div class="container-fluid">
     {% block ctt %}
@@ -146,8 +135,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="{% static 'designthinking/js/main.js' %}"></script>
-
-
 
 </body>
 </html>

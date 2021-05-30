@@ -8,11 +8,16 @@ url = "https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/6f715e03-
 authenticator = IAMAuthenticator(apikey)
 tts = TextToSpeechV1(authenticator=authenticator)
 tts.set_service_url(url)
+voiceModel = 'en-GB_CharlotteV3Voice'
+
+def testGetVoice():
+    voice = tts.get_voice(voiceModel).get_status_code()
+    return voice
 
 def speak(text):
     print(text)
     # with open('./speech.wav', 'wb') as audio_file:
-    #     res = tts.synthesize(text, accept='audio/wav', voice='en-GB_CharlotteV3Voice').get_result()
+    #     res = tts.synthesize(text, accept='audio/wav', voice=voiceModel).get_result()
     #     audio_file.write(res.content)
 
     # filename = 'speech.wav'

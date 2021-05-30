@@ -81,6 +81,7 @@ function stopRecording() {
 
 	//create the wav blob and pass it on to createDownloadLink
 	rec.exportWAV(createDownloadLink);
+	document.getElementById('theForm').submit();
 }
 
 function createDownloadLink(blob) {
@@ -88,5 +89,5 @@ function createDownloadLink(blob) {
 	//name of .wav file to use during upload and download (without extendion)
 	var fd = new FormData();
     fd.append("audio_data",blob);
-    data.append('csrfmiddlewaretoken', csrf);
+    fd.append('csrfmiddlewaretoken', csrf);
 }

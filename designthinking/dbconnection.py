@@ -6,13 +6,18 @@ conn_str='DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-dal09-10.services.dal.bluem
 ibm_db_conn = ibm_db.connect(conn_str,'','')
 conn = ibm_db_dbi.Connection(ibm_db_conn)
 
+def connectionTest():
+    connState = ibm_db.active(ibm_db_conn)
+    return connState
 
+# insert a single entry to a two column table
 def insertSingleTwo(tableName, value):
     insert = "insert into "+tableName+" values(?,?)"
     params = (value[0], value[1])
     stmt = ibm_db.prepare(ibm_db_conn, insert)
     ibm_db.execute(stmt, params)
 
+# insert a single entry to a four column table
 def insertSingleFour(tableName, value):
     insert = "insert into "+tableName+" values(?,?,?,?)"
     params = (value[0], value[1], value[2], value[3])
@@ -20,6 +25,7 @@ def insertSingleFour(tableName, value):
     ibm_db.execute(stmt, params)
 
 
+# insert multiple entries to a two column table
 def insertTwo(projectID, tableName, context):
     insert = "insert into "+tableName+" values(?,?)"
     for element in context:
@@ -64,6 +70,7 @@ def saveProject(email, context):
         stmt = ibm_db.prepare(ibm_db_conn, insert)
         ibm_db.execute(stmt, params)
 
+# get all data satisfying the condition
 def getData(tableName, colName, id):
     select = "select "+ colName+" from "+tableName+" where id = \'" + id +"\'"
     cur = conn.cursor()
@@ -71,6 +78,7 @@ def getData(tableName, colName, id):
     rows=cur.fetchall()
     return rows
 
+# return a list of all project IDs in this account
 def getProjectID(email): 
     id = []
     select = "select email, id from project where email = \'" + email +"\'"
@@ -82,6 +90,7 @@ def getProjectID(email):
             id.append(row[1])
     return id
 
+# return a list of project names associated with the input list of project IDs
 def getProjectName(projectID):
     name = []
     for id in projectID:
@@ -98,6 +107,7 @@ def getProjectName(projectID):
         name.append(project)
     return name
 
+# used in review, return everything needs to be displayed
 def getProjectContent(projectID):
     content = {}
     params = [
@@ -125,6 +135,7 @@ def getProjectContent(projectID):
         content[param[0]].append({'id': projectID, 'complexity': rows[i][0], 'expensive': rows[i][1], 'text': rows[i][2], 'sequence': str(i)})
     return content
 
+# delete a whole project
 def deleteProject(email, projectID):
     tables = ['asis', 'empathydo', 'empathyfeel', 'empathysay', 'empathythink', 'ideas', 'projectname', 'target']
     for table in tables:
@@ -134,6 +145,7 @@ def deleteProject(email, projectID):
     delete = "delete from project where id = \'"+projectID+'\''
     result = ibm_db.exec_immediate(ibm_db_conn,delete)
 
+# delete a single entry
 def deleteItem(table, item):
     condition = "id =\'"
     condition = condition + item['id'] +'\''
@@ -144,3 +156,4 @@ def deleteItem(table, item):
     print(delete)
     result = ibm_db.exec_immediate(ibm_db_conn,delete)
     print(result)
+
