@@ -1,6 +1,6 @@
 from pythondjangoapp.settings.base import *
 
-DEBUG = True
+DEBUG = False
 
 INSTALLED_APPS += (
                    'designthinking.apps.DesignthinkingConfig',
