@@ -101,11 +101,6 @@ def newdesign(request):
 
     # if an user input is received
     if request.method == 'POST':
-        if request.FILES.get('audio_data'):
-            print("yesyesyes")
-        else:
-            print("????????????????????")
-
         # if the input is user's input in the chat
         # empty input creates meaningless conversation and maybe caused by reloading the page 
         # so it should be ignored
